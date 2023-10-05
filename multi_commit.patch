@@ -1,0 +1,441 @@
+From 988093e37b2ec7e0215609bce5445569a1a33612 Mon Sep 17 00:00:00 2001
+From: Joe Ferrer <joe@theforage.com>
+Date: Wed, 1 Mar 2023 01:05:18 +1100
+Subject: [PATCH 1/8] Move python files to datafeed dir
+
+---
+ requirements.txt => datafeed/requirements.txt | 0
+ server.py => datafeed/server3.py              | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+ rename requirements.txt => datafeed/requirements.txt (100%)
+ rename server.py => datafeed/server3.py (100%)
+
+diff --git a/requirements.txt b/datafeed/requirements.txt
+similarity index 100%
+rename from requirements.txt
+rename to datafeed/requirements.txt
+diff --git a/server.py b/datafeed/server3.py
+similarity index 100%
+rename from server.py
+rename to datafeed/server3.py
+-- 
+2.42.0.windows.2
+
+
+From cb5a0e5119a322f722d07dc4d0880dbc2f503e00 Mon Sep 17 00:00:00 2001
+From: Neeraj Dattu Dudam <dudamdattu@gmail.com>
+Date: Thu, 5 Oct 2023 15:27:31 +0530
+Subject: [PATCH 2/8] updated browsers-list package to latest
+
+---
+ package-lock.json | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
+
+diff --git a/package-lock.json b/package-lock.json
+index 8135a72..c4a57eb 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -4408,9 +4408,9 @@
+       }
+     },
+     "node_modules/caniuse-lite": {
+-      "version": "1.0.30001373",
+-      "resolved": "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001373.tgz",
+-      "integrity": "sha512-pJYArGHrPp3TUqQzFYRmP/lwJlj8RCbVe3Gd3eJQkAV8SAC6b19XS9BjMvRdvaS8RMkaTN8ZhoHP6S1y8zzwEQ==",
++      "version": "1.0.30001546",
++      "resolved": "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001546.tgz",
++      "integrity": "sha512-zvtSJwuQFpewSyRrI3AsftF6rM0X80mZkChIt1spBGEvRglCrjTniXvinc8JKRoqTwXAgvqTImaN9igfSMtUBw==",
+       "funding": [
+         {
+           "type": "opencollective",
+@@ -4419,6 +4419,10 @@
+         {
+           "type": "tidelift",
+           "url": "https://tidelift.com/funding/github/npm/caniuse-lite"
++        },
++        {
++          "type": "github",
++          "url": "https://github.com/sponsors/ai"
+         }
+       ]
+     },
+@@ -23720,9 +23724,9 @@
+       }
+     },
+     "caniuse-lite": {
+-      "version": "1.0.30001373",
+-      "resolved": "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001373.tgz",
+-      "integrity": "sha512-pJYArGHrPp3TUqQzFYRmP/lwJlj8RCbVe3Gd3eJQkAV8SAC6b19XS9BjMvRdvaS8RMkaTN8ZhoHP6S1y8zzwEQ=="
++      "version": "1.0.30001546",
++      "resolved": "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001546.tgz",
++      "integrity": "sha512-zvtSJwuQFpewSyRrI3AsftF6rM0X80mZkChIt1spBGEvRglCrjTniXvinc8JKRoqTwXAgvqTImaN9igfSMtUBw=="
+     },
+     "capture-exit": {
+       "version": "1.2.0",
+-- 
+2.42.0.windows.2
+
+
+From e9d362a4854223945ec8d341a514b256fc327d9c Mon Sep 17 00:00:00 2001
+From: Neeraj Dattu Dudam <dudamdattu@gmail.com>
+Date: Thu, 5 Oct 2023 15:30:55 +0530
+Subject: [PATCH 3/8] updated componentdidmount schema
+
+---
+ src/Graph.tsx | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/src/Graph.tsx b/src/Graph.tsx
+index 277797d..9d3893e 100644
+--- a/src/Graph.tsx
++++ b/src/Graph.tsx
+@@ -23,10 +23,13 @@ class Graph extends Component<IProps, {}> {
+     const elem = document.getElementsByTagName('perspective-viewer')[0] as unknown as PerspectiveViewerElement;
+ 
+     const schema = {
+-      stock: 'string',
+-      top_ask_price: 'float',
+-      top_bid_price: 'float',
++      price_abc: 'float',
++      price_def: 'float',
++      ratio: 'float',
+       timestamp: 'date',
++      upper_bound: 'float',
++      lower_bound: 'float',
++      trigger_alert: 'float',
+     };
+ 
+     if (window.perspective && window.perspective.worker()) {
+-- 
+2.42.0.windows.2
+
+
+From c865c44c07bec140692d68395132526e7c907df6 Mon Sep 17 00:00:00 2001
+From: Neeraj Dattu Dudam <dudamdattu@gmail.com>
+Date: Thu, 5 Oct 2023 15:32:24 +0530
+Subject: [PATCH 4/8] updated attibutes
+
+---
+ src/Graph.tsx | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/src/Graph.tsx b/src/Graph.tsx
+index 9d3893e..c9e5024 100644
+--- a/src/Graph.tsx
++++ b/src/Graph.tsx
+@@ -43,10 +43,13 @@ class Graph extends Component<IProps, {}> {
+       elem.setAttribute('row-pivots', '["timestamp"]');
+       elem.setAttribute('columns', '["top_ask_price"]');
+       elem.setAttribute('aggregates', JSON.stringify({
+-        stock: 'distinctcount',
+-        top_ask_price: 'avg',
+-        top_bid_price: 'avg',
++        price_abc: 'avg',
++        price_def: 'avg',
++        ratio: 'avg',
+         timestamp: 'distinct count',
++        upper_bound: 'avg',
++        lower_bound: 'avg',
++        trigger_alert: 'avg',
+       }));
+     }
+   }
+-- 
+2.42.0.windows.2
+
+
+From 7a411d5b06e575ce6050b2070875964e72f25998 Mon Sep 17 00:00:00 2001
+From: Neeraj Dattu Dudam <dudamdattu@gmail.com>
+Date: Thu, 5 Oct 2023 15:34:31 +0530
+Subject: [PATCH 5/8] modified componentdidupdate
+
+---
+ src/Graph.tsx | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/Graph.tsx b/src/Graph.tsx
+index c9e5024..ba63fb5 100644
+--- a/src/Graph.tsx
++++ b/src/Graph.tsx
+@@ -56,9 +56,9 @@ class Graph extends Component<IProps, {}> {
+ 
+   componentDidUpdate() {
+     if (this.table) {
+-      this.table.update(
++      this.table.update([
+         DataManipulator.generateRow(this.props.data),
+-      );
++      ] as unknown as TableData);
+     }
+   }
+ }
+-- 
+2.42.0.windows.2
+
+
+From 3c17098e1e143429379964527a730def6e9d4a4c Mon Sep 17 00:00:00 2001
+From: Neeraj Dattu Dudam <dudamdattu@gmail.com>
+Date: Thu, 5 Oct 2023 15:41:46 +0530
+Subject: [PATCH 6/8] modified datamanipulator.ts export interface
+
+---
+ src/DataManipulator.ts | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/src/DataManipulator.ts b/src/DataManipulator.ts
+index 7f62295..4ef35c7 100644
+--- a/src/DataManipulator.ts
++++ b/src/DataManipulator.ts
+@@ -1,9 +1,13 @@
+ import { ServerRespond } from './DataStreamer';
+ 
+ export interface Row {
+-  stock: string,
+-  top_ask_price: number,
++  price_abc: number,
++  price_def: number,
++  ratio: number,
+   timestamp: Date,
++  upper_bound: number,
++  lower_bound: number,
++  trigger_alert: number | undefined,
+ }
+ 
+ 
+-- 
+2.42.0.windows.2
+
+
+From 95f9f88aea2ed792df4f3d9a75b6eb48c122fd88 Mon Sep 17 00:00:00 2001
+From: Neeraj Dattu Dudam <dudamdattu@gmail.com>
+Date: Thu, 5 Oct 2023 15:57:01 +0530
+Subject: [PATCH 7/8] added tabledata
+
+---
+ src/Graph.tsx | 98 +++++++++++++++++++++++++--------------------------
+ 1 file changed, 49 insertions(+), 49 deletions(-)
+
+diff --git a/src/Graph.tsx b/src/Graph.tsx
+index ba63fb5..f6f72dd 100644
+--- a/src/Graph.tsx
++++ b/src/Graph.tsx
+@@ -1,66 +1,66 @@
+-import React, { Component } from 'react';
+-import { Table } from '@finos/perspective';
+-import { ServerRespond } from './DataStreamer';
+-import { DataManipulator } from './DataManipulator';
++import React, {Component} from 'react';
++import {Table, TableData} from '@finos/perspective';
++import {ServerRespond} from './DataStreamer';
++import {DataManipulator} from './DataManipulator';
+ import './Graph.css';
+ 
+ interface IProps {
+-  data: ServerRespond[],
++    data: ServerRespond[],
+ }
+ 
+ interface PerspectiveViewerElement extends HTMLElement {
+-  load: (table: Table) => void,
++    load: (table: Table) => void,
+ }
++
+ class Graph extends Component<IProps, {}> {
+-  table: Table | undefined;
++    table: Table | undefined;
+ 
+-  render() {
+-    return React.createElement('perspective-viewer');
+-  }
++    render() {
++        return React.createElement('perspective-viewer');
++    }
+ 
+-  componentDidMount() {
+-    // Get element from the DOM.
+-    const elem = document.getElementsByTagName('perspective-viewer')[0] as unknown as PerspectiveViewerElement;
++    componentDidMount() {
++        // Get element from the DOM.
++        const elem = document.getElementsByTagName('perspective-viewer')[0] as unknown as PerspectiveViewerElement;
+ 
+-    const schema = {
+-      price_abc: 'float',
+-      price_def: 'float',
+-      ratio: 'float',
+-      timestamp: 'date',
+-      upper_bound: 'float',
+-      lower_bound: 'float',
+-      trigger_alert: 'float',
+-    };
++        const schema = {
++            price_abc: 'float',
++            price_def: 'float',
++            ratio: 'float',
++            timestamp: 'date',
++            upper_bound: 'float',
++            lower_bound: 'float',
++            trigger_alert: 'float'
++        };
+ 
+-    if (window.perspective && window.perspective.worker()) {
+-      this.table = window.perspective.worker().table(schema);
+-    }
+-    if (this.table) {
+-      // Load the `table` in the `<perspective-viewer>` DOM reference.
+-      elem.load(this.table);
+-      elem.setAttribute('view', 'y_line');
+-      elem.setAttribute('column-pivots', '["stock"]');
+-      elem.setAttribute('row-pivots', '["timestamp"]');
+-      elem.setAttribute('columns', '["top_ask_price"]');
+-      elem.setAttribute('aggregates', JSON.stringify({
+-        price_abc: 'avg',
+-        price_def: 'avg',
+-        ratio: 'avg',
+-        timestamp: 'distinct count',
+-        upper_bound: 'avg',
+-        lower_bound: 'avg',
+-        trigger_alert: 'avg',
+-      }));
++        if (window.perspective && window.perspective.worker()) {
++            this.table = window.perspective.worker().table(schema);
++        }
++        if (this.table) {
++            // Load the `table` in the `<perspective-viewer>` DOM reference.
++            elem.load(this.table);
++            elem.setAttribute('view', 'y_line');
++            elem.setAttribute('row-pivots', '["timestamp"]');
++            elem.setAttribute('columns', '["ratio", "lower_bound", "upper_bound", "trigger_alert"]');
++            elem.setAttribute('aggregates', JSON.stringify({
++                price_abc: 'avg',
++                price_def: 'avg',
++                ratio: 'avg',
++                timestamp: 'distinct count',
++                upper_bound: 'avg',
++                lower_bound: 'avg',
++                trigger_alert: 'avg'
++            }));
++        }
+     }
+-  }
+ 
+-  componentDidUpdate() {
+-    if (this.table) {
+-      this.table.update([
+-        DataManipulator.generateRow(this.props.data),
+-      ] as unknown as TableData);
++    componentDidUpdate() {
++        if (this.table) {
++            this.table.update([
++                DataManipulator.generateRow(this.props.data),
++            ] as unknown as TableData);
++        }
+     }
+-  }
+ }
+ 
+-export default Graph;
++export default Graph;
+\ No newline at end of file
+-- 
+2.42.0.windows.2
+
+
+From 3a527231e03f60c17f83d5c5b31af16071ebb184 Mon Sep 17 00:00:00 2001
+From: Neeraj Dattu Dudam <dudamdattu@gmail.com>
+Date: Thu, 5 Oct 2023 15:57:32 +0530
+Subject: [PATCH 8/8] modified the class datamanipulator
+
+---
+ src/DataManipulator.ts | 75 ++++++++++++++++++++++++++++++++----------
+ 1 file changed, 58 insertions(+), 17 deletions(-)
+
+diff --git a/src/DataManipulator.ts b/src/DataManipulator.ts
+index 4ef35c7..8c6e6e2 100644
+--- a/src/DataManipulator.ts
++++ b/src/DataManipulator.ts
+@@ -1,24 +1,65 @@
+-import { ServerRespond } from './DataStreamer';
++import {ServerRespond} from './DataStreamer';
+ 
+ export interface Row {
+-  price_abc: number,
+-  price_def: number,
+-  ratio: number,
+-  timestamp: Date,
+-  upper_bound: number,
+-  lower_bound: number,
+-  trigger_alert: number | undefined,
++    price_abc: number,
++    price_def: number,
++    ratio: number,
++    timestamp: Date,
++    upper_bound: number,
++    lower_bound: number,
++    trigger_alert: number | undefined,
+ }
+ 
+ 
+ export class DataManipulator {
+-  static generateRow(serverResponds: ServerRespond[]) {
+-    return serverResponds.map((el: any) => {
+-      return {
+-        stock: el.stock,
+-        top_ask_price: el.top_ask && el.top_ask.price || 0,
+-        timestamp: el.timestamp,
+-      };
+-    })
+-  }
++    static generateRow(serverRespond: ServerRespond[]): Row {
++        const priceABC = (serverRespond[0].top_ask.price + serverRespond[0].top_bid.price) / 2;
++        const priceDEF = (serverRespond[1].top_ask.price + serverRespond[1].top_bid.price) / 2;
++        const ratio = priceABC / priceDEF;
++        const upperBound = 1 + 0.1;
++        const lowerBound = 1 - 0.1;
++        return {
++            price_abc: priceABC,
++            price_def: priceDEF,
++            ratio,
++            timestamp: serverRespond[0].timestamp > serverRespond[1].timestamp ?
++                serverRespond[0].timestamp : serverRespond[1].timestamp,
++            upper_bound: upperBound,
++            lower_bound: lowerBound,
++            trigger_alert: (ratio > upperBound || ratio < lowerBound) ? ratio : undefined,
++        };
++    }
+ }
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
+-- 
+2.42.0.windows.2
+
